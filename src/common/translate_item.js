@@ -542,7 +542,16 @@ Zotero.Translate.ItemSaver.prototype = {
 			"title":(attachment.title ? attachment.title.toString() : "Untitled Attachment"),
 			"accessDate":"CURRENT_TIMESTAMP",
 			"url":attachment.url,
-			"note":(attachment.note ? attachment.note.toString() : ""),
+			// "note":(attachment.note ? attachment.note.toString() : ""),
+      "note":(
+        (attachment.note ? attachment.note.toString() : "") +
+        (attachment.myNote ? attachment.myNote : "")
+      ),
+      "notes":(
+        (attachment.note ? attachment.note.toString() : "") +
+        (attachment.myNote ? attachment.myNote : "")
+      ),
+      "myNote":(attachment.myNote && attachment.myNote instanceof Array ? attachment.myNote : []),
 			"tags":(attachment.tags && attachment.tags instanceof Array ? attachment.tags : [])
 		}];
 		

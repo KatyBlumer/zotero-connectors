@@ -58,6 +58,12 @@ Zotero.UI.ProgressWindow = class ProgressWindow extends React.PureComponent {
 		
 		this.nArcs = 20;
 		
+    this.myNoteText = {
+			more: Zotero.getString('general_more'),
+			done: Zotero.getString('general_done'),
+			notePlaceholder: Zotero.getString('progressWindow_notePlaceholder')
+		};
+
 		this.text = {
 			more: Zotero.getString('general_more'),
 			done: Zotero.getString('general_done'),
@@ -79,6 +85,10 @@ Zotero.UI.ProgressWindow = class ProgressWindow extends React.PureComponent {
 		this.handleRowToggle = this.handleRowToggle.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.onNoteChange = this.onNoteChange.bind(this);
+		this.onNoteKeyPress = this.onNoteKeyPress.bind(this);
+		this.onNoteFocus = this.onNoteFocus.bind(this);
+		this.onNoteBlur = this.onNoteBlur.bind(this);
 		this.onTagsChange = this.onTagsChange.bind(this);
 		this.onTagsKeyPress = this.onTagsKeyPress.bind(this);
 		this.onTagsFocus = this.onTagsFocus.bind(this);
@@ -92,6 +102,8 @@ Zotero.UI.ProgressWindow = class ProgressWindow extends React.PureComponent {
 			target: null,
 			targets: null,
 			targetSelectorShown: false,
+      myNote: "",
+      notes: "",
 			tags: "",
 			itemProgress: new Map(),
 			errors: []
@@ -267,7 +279,7 @@ Zotero.UI.ProgressWindow = class ProgressWindow extends React.PureComponent {
 	}
 	
 	sendUpdate() {
-		this.sendMessage('updated', { target: this.target, tags: this.tags });
+		this.sendMessage('updated', { target: this.target, myNote: this.myNote, notes: this.myNote, tags: this.tags });
 	}
 	
 	//
@@ -438,8 +450,30 @@ Zotero.UI.ProgressWindow = class ProgressWindow extends React.PureComponent {
 			this.handleUserInteraction();
 		}
 	}
-	
-	onTagsChange(event) {
+
+	onNoteChange(event) {
+		this.setState({myNote: event.target.value});
+		this.myNote = event.target.value;
+	}
+
+  onNoteKeyPress(event) {
+    // Commit tags and close popup on Enter
+    if (event.which == 13) {
+      this.sendUpdate();
+      this.handleDone();
+    }
+  }
+
+	onNoteFocus() {
+		this.sendMessage('notefocus');
+	}
+
+	onNoteBlur() {
+		this.sendMessage('noteblur');
+		this.sendUpdate();
+	}
+
+  onTagsChange(event) {
 		this.setState({tags: event.target.value});
 		this.tags = event.target.value;
 	}
@@ -551,6 +585,17 @@ Zotero.UI.ProgressWindow = class ProgressWindow extends React.PureComponent {
 						onFocus={this.onTagsFocus}
 						onBlur={this.onTagsBlur} />
 					<button className="ProgressWindow-button" onClick={this.handleDone}>{this.text.done}</button>
+				</div>
+        <div className="ProgressWindow-inputRow ProgressWindow-targetSelectorNoteRow">
+					<input className="ProgressWindow-noteInput"
+						type="text"
+						value={this.state.myNote}
+						placeholder={this.myNoteText.notePlaceholder}
+						onChange={this.onNoteChange}
+						onKeyPress={this.onNoteKeyPress}
+						onFocus={this.onNoteFocus}
+						onBlur={this.onNoteBlur} />
+            <button className="ProgressWindow-button" onClick={this.handleDone}>{this.myNoteText.done}</button>
 				</div>
 			</div>
 			: ""

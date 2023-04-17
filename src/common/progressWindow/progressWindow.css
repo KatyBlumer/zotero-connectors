@@ -91,6 +91,25 @@ button:active {
 	margin-top: 6px;
 }
 
+.ProgressWindow-noteRow {
+	font-size: 12px;
+}
+
+.ProgressWindow-noteLabel {
+	margin-top: 3px;
+	margin-right: 6px;
+	font-weight: bold;
+	user-select: none;
+}
+
+.ProgressWindow-noteInput {
+	flex-grow: 1;
+	margin-right: 8px;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: 12px;
+}
+
 .ProgressWindow-tagsRow {
 	font-size: 12px;
 }

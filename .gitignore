@@ -4,3 +4,7 @@ cert
 config.sh
 dist
 node_modules
+*.DS_Store
+package.json
+package-lock.json
+*package.json

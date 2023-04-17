@@ -35,12 +35,14 @@
 	"general_copyToClipboard": {
 		"message": "Copy to Clipboard"
 	},
-	
 	"progressWindow_savingTo": {
-		"message": "Saving to"
+		"message": "DO NOT SUBMIT"
+	},
+	"progressWindow_notePlaceholder": {
+		"message": "Notes"
 	},
 	"progressWindow_tagPlaceholder": {
-		"message": "Tags (separated by commas)"
+		"message": "WoodlyDoodly"
 	},
 	"progressWindow_error_translation": {
 		"message": "An error occurred while saving this item. See $1 for more information."
